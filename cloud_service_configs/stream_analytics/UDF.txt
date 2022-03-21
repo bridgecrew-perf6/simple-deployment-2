@@ -1,0 +1,3 @@
+function parseJson(string) {
+return JSON.parse(string);
+}
