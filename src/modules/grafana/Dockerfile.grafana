@@ -1,0 +1,10 @@
+# Copyright (C) 2021 scalers.ai
+# Dockerfile for custom grafana image with ajax panel
+
+from grafana/grafana:8.2.3
+
+LABEL Description="grafana image with ajax panel"
+LABEL Vendor="scalers.ai"
+
+# install ajax panel
+RUN grafana-cli plugins install ryantxu-ajax-panel
