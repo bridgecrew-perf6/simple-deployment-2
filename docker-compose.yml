@@ -5,6 +5,9 @@ services:
     build:
       context: ./pipeline
       dockerfile: Dockerfile.pipeline
+    devices:
+      - /dev/dri:/dev/dri
+    privileged: true
     depends_on:
     - grafana
     - MQTTBroker
