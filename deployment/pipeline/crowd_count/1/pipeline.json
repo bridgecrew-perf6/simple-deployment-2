@@ -1,0 +1,42 @@
+{
+	"type": "GStreamer",
+	"template": ["appsrc name=source",
+		" ! gvapython module=/home/video-analytics-serving/pipelines/crowd_count/1/crowd.py class=InferenceTime",
+		" ! gvainference model={models[dm_count][1][network]} name=crowd model-instance-id=model0 inference-interval=5",
+		" ! gvapython name=crowd-count module=/home/video-analytics-serving/pipelines/crowd_count/1/crowd.py class=CrowdCount",
+		" ! appsink name=destination"],
+	"description": "Crowd Density and Counting",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"detection-device": {
+				"element": {
+					"name": "crowd",
+					"property": "device"
+				},
+				"type": "string"
+			},
+            "stream":{
+                "element": {
+                    "name": "crowd-count",
+                    "property": "arg"
+                },
+                "type": "string"
+            },
+			"latitude":{
+                "element": {
+                    "name": "crowd-count",
+                    "property": "arg"
+                },
+                "type": "string"
+            },
+			"longitude":{
+                "element": {
+                    "name": "crowd-count",
+                    "property": "arg"
+                },
+                "type": "string"
+            }
+		}
+	}
+}
