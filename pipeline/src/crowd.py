@@ -35,10 +35,8 @@ class InferenceTime:
 
         :returns bool
         """
-        for message in frame.messages():
-            ext_msg = json.loads(message)
-            ext_msg['time'] = str(time.time_ns())
-            frame.add_message(json.dumps(ext_msg))
+        frame.add_message(json.dumps({"time": str(time.time())}))
+
 
         return True
 
@@ -73,10 +71,16 @@ class CrowdCount:
         :returns bool
         """
 
-        # calculate model fps by getting inference start time
-        data = json.loads(frame.messages()[1])['time']
-        inference_time = time.time_ns() - int(data)
-        fps = 1000000000 / inference_time
+        # # calculate model fps by getting inference start time
+        # data = json.loads(frame.messages()[0])['time']
+        # inference_time = time.time_ns() - int(data)
+        # fps = 1000000000 / inference_time
+
+        data = json.loads(frame.messages()[0])['time']
+        inference_time = time.time() - float(data)
+        fps = 1 / inference_time
+        for message in frame.messages():
+            frame.remove_message(message)
 
         for tensor in frame.tensors():
             # DM-Count model output layer 'output' provides the density map
